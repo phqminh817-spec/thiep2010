@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Gửi lời chúc</title>
+</head>
+<body>
+  <h2>Gửi lời chúc 💌</h2>
+  <form id="wishForm">
+    <input type="text" id="name" placeholder="Tên người nhận" required><br><br>
+    <textarea id="message" placeholder="Lời chúc" required></textarea><br><br>
+    <button type="submit">Gửi</button>
+  </form>
+
+  <p id="result"></p>
+
+  <script>
+    const scriptURL = "👉 DÁN LINK WEB APP Ở ĐÂY 👈";
+
+    document.getElementById("wishForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const message = document.getElementById("message").value;
+
+      document.getElementById("result").innerText = "⏳ Đang gửi...";
+
+      try {
+        const response = await fetch(scriptURL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, message })
+        });
+        const res = await response.json();
+        if (res.status === "success") {
+          document.getElementById("result").innerText = "🎉 Gửi thành công!";
+        } else {
+          document.getElementById("result").innerText = "❌ Lỗi: " + res.message;
+        }
+      } catch (err) {
+        document.getElementById("result").innerText = "😢 Gửi thất bại. Có thể link Apps Script sai hoặc chưa public.";
+      }
+    });
+  </script>
+</body>
+</html>
